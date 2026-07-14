@@ -6,6 +6,7 @@ import FilterPanel, { FilterState } from '@/components/FilterPanel';
 import CustomerTable from '@/components/CustomerTable';
 import ExportButton from '@/components/ExportButton';
 import ImportButton from '@/components/ImportButton';
+import AddToLeadsButton from '@/components/AddToLeadsButton';
 import { Button } from '@/components/ui/button';
 import { Customer } from '@/app/api/customers/route';
 
@@ -125,6 +126,7 @@ export default function Home() {
               onImportComplete={(newCustomers) => setCustomers([...customers, ...newCustomers])}
               isLoading={isLoading}
             />
+            <AddToLeadsButton customers={filteredCustomers} isLoading={isLoading} />
             <Button
               onClick={fetchCustomers}
               disabled={isLoading}
