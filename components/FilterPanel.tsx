@@ -237,7 +237,7 @@ export default function FilterPanel({ onFilterChange, onReset }: FilterPanelProp
       {/* Action Buttons */}
       <div className="flex gap-2 pt-2">
         <Button
-          className="flex-1 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-black"
+          className="flex-1 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white"
           onClick={() => {
             // Filters are already applied via onChange
           }}
@@ -245,8 +245,7 @@ export default function FilterPanel({ onFilterChange, onReset }: FilterPanelProp
           Terapkan Filter
         </Button>
         <Button
-          variant="outline"
-          className="flex-1"
+          className="flex-1 bg-slate-600 hover:bg-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600 text-white"
           onClick={handleReset}
         >
           Reset Semua

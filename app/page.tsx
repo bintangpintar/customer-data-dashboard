@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import FilterPanel, { FilterState } from '@/components/FilterPanel';
 import CustomerTable from '@/components/CustomerTable';
 import ExportButton from '@/components/ExportButton';
+import ImportButton from '@/components/ImportButton';
 import { Button } from '@/components/ui/button';
 import { Customer } from '@/app/api/customers/route';
 
@@ -153,11 +154,14 @@ export default function Home() {
             </p>
           </div>
           <div className="flex gap-2">
+            <ImportButton 
+              onImportComplete={(newCustomers) => setCustomers([...customers, ...newCustomers])}
+              isLoading={isLoading}
+            />
             <Button
               onClick={fetchCustomers}
               disabled={isLoading}
-              variant="outline"
-              className="text-slate-900 dark:text-white"
+              className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white"
             >
               {isLoading ? 'Memuat...' : 'Refresh'}
             </Button>
