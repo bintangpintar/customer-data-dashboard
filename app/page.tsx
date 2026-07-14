@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import Navigation from '@/components/Navigation';
 import FilterPanel, { FilterState } from '@/components/FilterPanel';
 import CustomerTable from '@/components/CustomerTable';
 import ExportButton from '@/components/ExportButton';
@@ -94,50 +95,16 @@ export default function Home() {
       {/* Header */}
       <header className="bg-slate-900 dark:bg-black border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-3xl font-bold text-white">PawnCRM AI</h1>
-              <p className="text-slate-400 text-sm mt-1">Cabang: Pulo Ribung</p>
-            </div>
-            <nav className="hidden md:flex gap-6">
-              <a href="#" className="text-slate-300 hover:text-white text-sm font-medium">
-                Dashboard
-              </a>
-              <a href="#" className="text-slate-300 hover:text-white text-sm font-medium">
-                Pelanggan
-              </a>
-              <a href="#" className="text-slate-300 hover:text-white text-sm font-medium">
-                CRM Pesan
-              </a>
-              <a href="#" className="text-slate-300 hover:text-white text-sm font-medium">
-                Leads Tracker
-              </a>
-            </nav>
-          </div>
+          <h1 className="text-3xl font-bold text-white">PawnCRM AI</h1>
+          <p className="text-slate-400 text-sm mt-1">Cabang: Pulo Ribung</p>
         </div>
       </header>
 
+      {/* Navigation */}
+      <Navigation />
+
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-        {/* Search & Actions Bar */}
-        <div className="flex gap-3 items-center">
-          <input
-            type="text"
-            placeholder="Cari nama, HP, atau barang..."
-            className="flex-1 px-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-full text-slate-900 dark:text-white text-sm placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:border-blue-500"
-          />
-          <div className="flex gap-2">
-            <button className="px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-black rounded-full text-sm font-medium hover:bg-slate-800 dark:hover:bg-slate-100">
-              Semua
-            </button>
-            <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-full text-sm font-medium">
-              VIP
-            </button>
-            <button className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-full text-sm font-medium">
-              Power
-            </button>
-          </div>
-        </div>
 
         {/* Filter Panel */}
         <FilterPanel

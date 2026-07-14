@@ -33,6 +33,12 @@ export default function CustomerTable({ customers, isLoading }: CustomerTablePro
     }).format(value);
   };
 
+  const maskPhoneNumber = (phone: string) => {
+    // Keep first 5 chars, mask the rest
+    if (phone.length <= 5) return phone;
+    return phone.substring(0, 5) + 'x'.repeat(phone.length - 5);
+  };
+
   const getCollateralBadge = (type: string) => {
     const colors: Record<string, string> = {
       'Elektronik': 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200',
@@ -64,7 +70,9 @@ export default function CustomerTable({ customers, isLoading }: CustomerTablePro
               className="border-b border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors"
             >
               <td className="px-4 py-3 text-slate-900 dark:text-white font-medium">{customer.nama}</td>
-              <td className="px-4 py-3 text-slate-600 dark:text-slate-400">{customer.noHp}</td>
+              <td className="px-4 py-3 text-slate-600 dark:text-slate-400" title={customer.noHp}>
+                {maskPhoneNumber(customer.noHp)}
+              </td>
               <td className="px-4 py-3">
                 <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white font-semibold">
                   {customer.creditScore}
