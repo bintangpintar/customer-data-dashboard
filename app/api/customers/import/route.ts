@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Customer } from '@/lib/types';
-import { addCustomers, getCustomerByPhone } from '@/lib/supabase';
+import { addCustomers, getExistingPhones } from '@/lib/supabase';
 
 function mapCustomerToSupabase(customer: Customer) {
   return {
@@ -28,39 +28,26 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // OPTIMIZATION: Fetch all existing phone numbers in single query instead of per-customer
+    const existingCustomers = await getExistingPhones();
+    const existingPhones = new Set(existingCustomers.map((c: any) => c.phone));
+
     const importedCustomers: Customer[] = [];
     let duplicateCount = 0;
 
-    // Check each customer for duplicates by phone number
+    // Filter duplicates in-memory (no database queries needed)
     for (const customer of customers) {
-      try {
-        const existingCustomer = await getCustomerByPhone(customer.noHp);
-
-        if (existingCustomer) {
-          // Customer already exists - skip and count as duplicate
-          duplicateCount++;
-          console.log(`[v0] Duplicate customer skipped: ${customer.noHp}`);
-          continue;
-        }
-
-        // Customer is new - prepare for import
-        const supabaseData = mapCustomerToSupabase(customer);
-        importedCustomers.push(customer);
-
-        console.log(`[v0] New customer prepared for import: ${customer.noHp}`);
-      } catch (error) {
-        console.error(`[v0] Error checking customer ${customer.noHp}:`, error);
-        // Continue with next customer on error
+      if (existingPhones.has(customer.noHp)) {
+        duplicateCount++;
         continue;
       }
+      importedCustomers.push(customer);
     }
 
-    // Batch insert all unique customers to Supabase
+    // Batch insert all unique customers to Supabase (single query)
     if (importedCustomers.length > 0) {
       try {
         const supabaseData = importedCustomers.map(mapCustomerToSupabase);
-        console.log(`[v0] Preparing to insert ${supabaseData.length} customers. Sample:`, supabaseData[0]);
-        
         const result = await addCustomers(supabaseData);
 
         if (!result || result.length === 0) {
@@ -75,8 +62,6 @@ export async function POST(request: NextRequest) {
             { status: 500 }
           );
         }
-
-        console.log(`[v0] Successfully imported ${result.length} customers to Supabase`);
       } catch (insertError) {
         console.error('[v0] Error during batch insert:', insertError);
         return NextResponse.json(

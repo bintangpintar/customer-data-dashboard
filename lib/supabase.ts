@@ -103,6 +103,20 @@ export async function getCustomerByPhone(phone: string) {
   return data || null;
 }
 
+// OPTIMIZATION: Get all phone numbers for duplicate checking (single query)
+export async function getExistingPhones() {
+  const { data, error } = await supabase
+    .from('customers')
+    .select('phone')
+    .limit(10000); // Safety limit
+
+  if (error) {
+    console.error('Error fetching existing phones:', error);
+    return [];
+  }
+  return data || [];
+}
+
 // Lead operations
 export async function getLeads() {
   const { data, error } = await supabase
