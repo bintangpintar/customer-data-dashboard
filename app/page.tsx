@@ -7,6 +7,7 @@ import CustomerTable from '@/components/CustomerTable';
 import ExportButton from '@/components/ExportButton';
 import ImportButton from '@/components/ImportButton';
 import AddToLeadsButton from '@/components/AddToLeadsButton';
+import HubungiPelangganButton from '@/components/HubungiPelangganButton';
 import { Button } from '@/components/ui/button';
 import { Customer } from '@/lib/types';
 
@@ -126,7 +127,6 @@ export default function Home() {
               onImportComplete={(newCustomers) => setCustomers([...customers, ...newCustomers])}
               isLoading={isLoading}
             />
-            <AddToLeadsButton customers={filteredCustomers} isLoading={isLoading} />
             <Button
               onClick={fetchCustomers}
               disabled={isLoading}
@@ -134,7 +134,7 @@ export default function Home() {
             >
               {isLoading ? 'Memuat...' : 'Refresh'}
             </Button>
-            <ExportButton customers={filteredCustomers} isLoading={isLoading} />
+            <HubungiPelangganButton customers={filteredCustomers} isLoading={isLoading} />
           </div>
         </div>
 
