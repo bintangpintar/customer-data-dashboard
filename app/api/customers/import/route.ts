@@ -6,6 +6,7 @@ function mapCustomerToSupabase(customer: Customer) {
   return {
     name: customer.nama,
     phone: customer.noHp,
+    email: customer.email || null,
     credit_score: customer.creditScore,
     collateral_type: customer.typeCollateral,
     highest_loan: customer.highestLoan,
@@ -56,22 +57,38 @@ export async function POST(request: NextRequest) {
 
     // Batch insert all unique customers to Supabase
     if (importedCustomers.length > 0) {
-      const supabaseData = importedCustomers.map(mapCustomerToSupabase);
-      const result = await addCustomers(supabaseData);
+      try {
+        const supabaseData = importedCustomers.map(mapCustomerToSupabase);
+        console.log(`[v0] Preparing to insert ${supabaseData.length} customers. Sample:`, supabaseData[0]);
+        
+        const result = await addCustomers(supabaseData);
 
-      if (!result || result.length === 0) {
+        if (!result || result.length === 0) {
+          console.error('[v0] Supabase insert returned no results');
+          return NextResponse.json(
+            {
+              error: 'Failed to insert customers',
+              message: 'Could not save customers to database',
+              importedCustomers: [],
+              duplicateCount,
+            },
+            { status: 500 }
+          );
+        }
+
+        console.log(`[v0] Successfully imported ${result.length} customers to Supabase`);
+      } catch (insertError) {
+        console.error('[v0] Error during batch insert:', insertError);
         return NextResponse.json(
           {
             error: 'Failed to insert customers',
-            message: 'Could not save customers to database',
+            message: String(insertError),
             importedCustomers: [],
             duplicateCount,
           },
           { status: 500 }
         );
       }
-
-      console.log(`[v0] Successfully imported ${result.length} customers to Supabase`);
     }
 
     return NextResponse.json({

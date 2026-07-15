@@ -22,7 +22,7 @@ export { supabase };
 export interface Customer {
   id?: string;
   name: string;
-  email: string;
+  email?: string;
   phone: string;
   company?: string;
   created_at?: string;

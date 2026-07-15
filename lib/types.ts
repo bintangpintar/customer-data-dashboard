@@ -1,6 +1,7 @@
 export interface Customer {
   nama: string;
   noHp: string;
+  email?: string;
   creditScore: number;
   typeCollateral: 'Elektronik' | 'Emas' | 'BPKB';
   highestLoan: number;
