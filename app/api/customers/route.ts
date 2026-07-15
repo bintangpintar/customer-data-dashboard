@@ -1,16 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-// Type definitions
-export interface Customer {
-  nama: string;
-  noHp: string;
-  creditScore: number;
-  typeCollateral: 'Elektronik' | 'Emas' | 'BPKB';
-  highestLoan: number;
-  percentileLoan: 'top 10%' | 'bottom 75%';
-  highValue: boolean;
-  vip: boolean;
-}
+import { Customer } from '@/lib/types';
 
 // Parse CSV data
 function parseCSV(csvText: string): Customer[] {

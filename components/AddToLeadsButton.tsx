@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Customer } from '@/app/api/customers/route';
+import { Customer } from '@/lib/types';
 
 interface AddToLeadsButtonProps {
   customers: Customer[];

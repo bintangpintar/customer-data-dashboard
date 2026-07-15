@@ -1,6 +1,6 @@
 'use client';
 
-import { Customer } from '@/app/api/customers/route';
+import { Customer } from '@/lib/types';
 
 interface CustomerTableProps {
   customers: Customer[];
