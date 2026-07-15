@@ -124,7 +124,18 @@ export default function Home() {
           </div>
           <div className="flex gap-2">
             <ImportButton 
-              onImportComplete={(newCustomers) => setCustomers([...customers, ...newCustomers])}
+              onImportComplete={(newCustomers) => {
+                // Deduplicate by phone number
+                const existingPhones = new Set(customers.map(c => c.noHp));
+                const uniqueCustomers = newCustomers.filter(c => !existingPhones.has(c.noHp));
+                const duplicateCount = newCustomers.length - uniqueCustomers.length;
+                
+                if (duplicateCount > 0) {
+                  alert(`${uniqueCustomers.length} pelanggan berhasil diimpor (${duplicateCount} duplikat diabaikan)`);
+                }
+                
+                setCustomers([...customers, ...uniqueCustomers]);
+              }}
               isLoading={isLoading}
             />
             <Button

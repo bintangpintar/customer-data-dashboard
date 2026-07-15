@@ -110,7 +110,7 @@ export default function ImportButton({ onImportComplete, isLoading }: ImportButt
     const file = files[0];
 
     // Check file size (max 100MB)
-    const maxSize = 100 * 1024 * 1024; // 100MB in bytes
+    const maxSize = 100 * 1024 * 1024;
     if (file.size > maxSize) {
       alert('File terlalu besar. Ukuran maksimal: 100MB');
       return;
@@ -126,31 +126,8 @@ export default function ImportButton({ onImportComplete, isLoading }: ImportButt
         return;
       }
 
-      // Send to backend for deduplication and Supabase storage
-      const response = await fetch('/api/customers/import', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ customers: newCustomers }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        alert(`Error: ${result.message || 'Gagal mengimpor data'}`);
-        return;
-      }
-
-      // Only add unique customers to local state
-      onImportComplete(result.importedCustomers || []);
-      
-      const duplicateCount = result.duplicateCount || 0;
-      const importedCount = result.importedCustomers?.length || 0;
-      
-      let message = `${importedCount} pelanggan berhasil diimpor`;
-      if (duplicateCount > 0) {
-        message += ` (${duplicateCount} duplikat diabaikan)`;
-      }
-      alert(message);
+      onImportComplete(newCustomers);
+      alert(`${newCustomers.length} pelanggan berhasil diimpor`);
     } catch (error) {
       console.error('[v0] Import error:', error);
       alert('Gagal mengimpor data. Pastikan file adalah CSV yang valid');
