@@ -3,11 +3,20 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
-if (!supabaseUrl || !supabaseKey) {
-  throw new Error('Missing Supabase environment variables');
+let supabase: any = null;
+
+// Only throw error if environment variables are missing in runtime (not build time)
+if (typeof window !== 'undefined') {
+  if (!supabaseUrl || !supabaseKey) {
+    throw new Error('Missing Supabase environment variables');
+  }
+  supabase = createClient(supabaseUrl, supabaseKey);
+} else if (supabaseUrl && supabaseKey) {
+  // Server-side: only initialize if env vars are available
+  supabase = createClient(supabaseUrl, supabaseKey);
 }
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+export { supabase };
 
 // Types
 export interface Customer {
