@@ -54,12 +54,12 @@ export default function ImportButton({ onImportComplete, isLoading }: ImportButt
         // Column mapping (0-indexed):
         // 0: Branch, 1: Nama Lengkap, 2: VIP, 3: High Value, 4: Blacklist Status
         // 5: nik, 6: CIF, 7: Gender, 8: Tanggal Lahir, 9: Age, 10: No. HP
-        // 50: Credit Score, 51: Highest Loan, 54: Loan Value Percentile
+        // 39: Email, 50: Credit Score, 51: Highest Loan, 54: Loan Value Percentile
         // 55: Emas, 56: Elektronik, 57: Last Gadai Item Type
         
         const nama = values[1]?.trim();
         const noHp = values[10]?.trim();
-        const email = values[40]?.trim() || '';
+        const email = values[39]?.trim() || '';
         const vip = values[2]?.trim().toLowerCase() === 'true';
         const highValue = values[3]?.trim().toLowerCase() === 'true';
         const creditScore = parseInt(values[50] || '70', 10);
