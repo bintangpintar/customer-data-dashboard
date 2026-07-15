@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     // Map event to status
     let eventStatus = 'pending';
     if (payload.event === 'message.sent') {
-      eventStatus = 'sent';
+      eventStatus = 'contacted';
     } else if (payload.event === 'message.failed') {
       eventStatus = 'failed';
     } else if (payload.event === 'message.ack') {
