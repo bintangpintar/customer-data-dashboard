@@ -8,7 +8,7 @@ import ExportButton from '@/components/ExportButton';
 import ImportButton from '@/components/ImportButton';
 import AddToLeadsButton from '@/components/AddToLeadsButton';
 import { Button } from '@/components/ui/button';
-import { Customer } from '@/app/api/customers/route';
+import { Customer } from '@/lib/types';
 
 export default function Home() {
   const [customers, setCustomers] = useState<Customer[]>([]);
